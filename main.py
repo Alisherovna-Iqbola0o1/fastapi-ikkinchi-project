@@ -63,3 +63,60 @@ def meva_update_page(meva_id:int, yangi_nom: str):
 @app.get("/")
 def home_page():
     return {"message": "hello world"}
+
+
+
+
+
+# KOMPUTERLAR
+komputerlar = [
+    'asus',
+    'acer',
+    'macbook'
+]
+
+# 1) Barcha kompyuterlar
+@app.get("/komputerlar")
+def komputerlar_list():
+    return {
+        "message": "ok",
+        "data": komputerlar
+    }
+
+# 2) Boshlanishi bilan filtrlash
+@app.get("/komputerlar/start")
+def komputerlar_start(komputer_nomi: str = ""):
+    res = [m for m in komputerlar if m.startswith(komputer_nomi)]
+    return {"message": "ok", "data": res}
+
+# 3) Tugashi bilan filtrlash
+@app.get("/komputerlar/end")
+def komputerlar_end(komputer_nomi: str = ""):
+    res = [m for m in komputerlar if m.endswith(komputer_nomi)]
+    return {"message": "ok", "data": res}
+
+# 4) Yaratish
+@app.post("/komputerlar/create/")
+def komputer_yaratish_page(komputer_nomi: str):
+    komputerlar.append(komputer_nomi)
+    return {"message": "komputer yaratildi"}
+
+# 5) ID bo‘yicha olish
+@app.get("/komputerlar/{komputer_id}")
+def komputer_detail_page(komputer_id: int):
+    return {
+        "message": "ok",
+        "komputer": komputerlar[komputer_id]
+    }
+
+# 6) O‘chirish
+@app.delete("/komputerlar/{komputer_id}/delete")
+def komputer_delete_page(komputer_id: int):
+    komputerlar.pop(komputer_id)
+    return {"message": "komputer o'chirildi"}
+
+# 7) Yangilash
+@app.patch("/komputerlar/{komputer_id}/update")
+def komputer_update_page(komputer_id: int, yangi_nom: str):
+    komputerlar[komputer_id] = yangi_nom
+    return {"message": "komputer o'zgartirildi"}
